@@ -7,46 +7,40 @@
 # much more complex than needed, so maybe later. KISS!
 
 import random
+# from this import ---> The Zen of Python, by Tim Peters - A Python Poem full of magic
 
 # simplified list for daily samples
 daily_temps = []  #[0.0 for d in range (31)]
 
-""" - Generar aleatoriamente las temperaturas medias registradas en el último mes de julio del año 2022.
-- Conocer cantidad de temperaturas generadas y dar la posibilidad de ingresar una manualmente.
-- Encontrar la temperatura máxima y mínima.
-- Generar un arreglo que contenga las temperaturas menores de 20°.
-- Dar la posibilidad de salir del programa en cualquier momento.
- """
-
-print(len(daily_temps))
-
 def randomTemps(daily_temps):
     # del daily_temps[:]
     if len(daily_temps) >= 31:
-        del daily_temps
-    else:
-        for i in range(31):
-            n = round(random.uniform(-1.5,24.0),1)
-            daily_temps.insert(i,n)
-    return daily_temps
+        daily_temps.clear()
+    for i in range(31):
+        n = round(random.uniform(-1.5,24.0),1)
+        daily_temps.insert(i,n)
+    tempList = daily_temps
+    return tempList
 
 def showTemps(daily_temps):
+    print("The number of samples is:", len(daily_temps))
     # using enumerate to get index and value
     for index, value in enumerate(daily_temps, start=1):
         print("day", index, "---> temperature:", value)
     return
-    # listDays = [(i+1, daily_temps[i]) for i in range(len(daily_temps))]
-    # print("day"+listDays[0]+1)
+
+# def changeTemp():
+#     changeTemp=input("Do you want to change any record?\n 1 - Yes \n 2 - No")
+#     if changeTemp == 1 or changeTemp == "Yes":
+#         changeTempDay = int(input("Input day number:\n"))
+#         changeTempValue = float(input("Provide new value [float]:\n")
+#         daily_temps[0] = changeTempValue
+#     # listDays = [(i+1, daily_temps[i]) for i in range(len(daily_temps))]
+#     # print("day"+listDays[0]+1)
 
 def freshTemp(daily_temps):
     freshDaysCount = 0
-    #chillDays = []
     freshDays = []
-    # for day in daily_temps:
-    #     if day < 20.0:
-    #         chillDaysCount += 1
-    #         chillDays.append(day)
-    # return chillDays
     for day, temp in enumerate(daily_temps, start=1):
         if temp < 20:
             freshDays.append([day,temp])
@@ -75,15 +69,50 @@ def minTemp(daily_temps):
     min_temps.sort()
     return min_temps[0]
 
-# populate random temperatures
-randomTemps(daily_temps)
-print(daily_temps)
-showTemps(daily_temps)
+def banner():
+    print(
+        """
+        +==========================================+
+        | Python functions to analyze temperatures |
+        |                                          |
+        | Select an operation:                     |
+        | 1 - Generate temperature dataset         |
+        | 2 - Read number of samples taken         |
+        | 3 - Find "Highest" and "Lowest" temps    |
+        | 4 - Return a list of temps below 20ºC    |
+        | 0 - Exit this program                    |
+        +==========================================+
+        """)
+    print()
+    menu= int(input("Select an operation:\n"))
+    
+    while menu != 0:
+        
+        if menu == 1:
+            tempList = randomTemps(daily_temps)
+            print("created fake entries for July", tempList)
+        
+        elif menu == 2:
+            showTemps(tempList)
+            #print("Se tomaron Mediciones de temperatura ")
 
+        elif menu == 3:
+            # Highest
+            print("Highest temperature recorded for July:", maxTemp(daily_temps))
+            # Lowest
+            print("Lowest temperature recorded for July:", minTemp(daily_temps))
 
-# Highest
-print("Highest temperature was:", maxTemp(daily_temps))
-# Lowest
-print("Lowest temperature was:", minTemp(daily_temps))
-# Chill
-print("Temperatures below 20.0º:\n", freshTemp(daily_temps))
+        elif menu == 4:
+            # Chilly-Fresh
+            print("Temperatures below 20.0º:\n", freshTemp(daily_temps))
+
+        else:
+            print(
+                """
+                +===================================+
+                | Try again using some valid option | 
+                +===================================+
+                """)
+        menu= int(input("Select an operation:\n"))
+
+banner()
