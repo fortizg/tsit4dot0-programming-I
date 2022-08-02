@@ -33,8 +33,8 @@ def randomTemps(daily_temps):
 def showTemps(daily_temps):
     # using enumerate to get index and value
     # print ("List index-value are : ")
-    for index, value in enumerate(daily_temps):
-        print("day", int(str(index))+1, "---> temperature:", value)
+    for index, value in enumerate(daily_temps, start=1):
+        print("day", index, "---> temperature:", value)
     return
     # listDays = [(i+1, daily_temps[i]) for i in range(len(daily_temps))]
     # print("day"+listDays[0]+1)
